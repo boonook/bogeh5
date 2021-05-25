@@ -5,8 +5,7 @@
     <meta http-equiv="Access-Control-Allow-Origin" content="*">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
     <title>下载app</title>
-    <script src="js/template-web.js"></script>
-    <script src="js/jquery-1.10.2.min.js"></script>
+    <link rel="icon" href="./favicon.ico" />
     <link  rel="stylesheet" type="text/css" href="./css/common.css"/>
     <style>
         *{
@@ -43,6 +42,7 @@
             font-family: PingFang SC;
             font-weight: 500;
             color: #FFFFFF;
+            cursor: pointer;
         }
         .btn img{
             margin-right:5px;
@@ -71,20 +71,29 @@
                 </div>
             </div>
             <div>
-                <div class="btn">
+                <div class="btn" onclick="copyText()">
                     <img src="./images/pingguo.png" style="width:20px" alt="">
                     iPhone 下载
                 </div>
-                <div class="btn">
+                <a href="http://www.bitgoodx.com/bit.apk" download="bit.apk" class="btn">
                     <img src="./images/android.png" style="width:20px" alt="">
-                    iPhone 下载
-                </div>
+                    android 下载
+                </a>
             </div>
         </div>
     </div>
+    <script src="./js/template-web.js"></script>
+    <script src="./js/jquery-1.10.2.min.js"></script>
     <script type="text/html" id="messageScript">
+        {{if show}}
         <div class="messageText">{{message}}</div>
+        {{/if}}
     </script>
     <script src="./js/common.js"></script>
+    <script type="text/javascript">
+        function copyText() {
+            messageText('暂未开放！')
+        }
+    </script>
 </body>
 </html>

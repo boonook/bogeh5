@@ -5,6 +5,7 @@
     <meta http-equiv="Access-Control-Allow-Origin" content="*">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
     <title>注册</title>
+    <link rel="icon" href="./favicon.ico" />
     <link  rel="stylesheet" type="text/css" href="./css/common.css"/>
     <style>
         *{
@@ -266,11 +267,11 @@
         <div id="tabBox">
 
         </div>
-        <form class="form">
+        <div class="form" id="form">
           <div id="formBoxTop"></div>
           <div id="formBoxImgCode"></div>
           <div id="formBoxFooter"></div>
-        </form>
+        </div>
     </div>
     <div id="model">
 
@@ -278,6 +279,7 @@
 </div>
 <script src="js/template-web.js"></script>
 <script src="js/jquery-1.10.2.min.js"></script>
+<script src="./js/common.js"></script>
 <script type="text/html" id="tabBoxScript">
   <div class="login">
     {{if type=='phone'}}
@@ -298,18 +300,16 @@
   </div>
 </script>
 <script type="text/html" id="formScript">
-    {{if type=='phone'}}
-        <div class="inputItem getcode" onclick="onShowModel()">
-            <div class="inputItemLeft">
-                <input value="{{formData.county}}" name="county" readonly type="text" placeholder="国家" />
-            </div>
-            <span class="sanjiao"></span>
+    <div class="inputItem getcode" onclick="onShowModel()">
+        <div class="inputItemLeft">
+            <input value="{{formData.county}}" name="county" readonly type="text" placeholder="国家" />
         </div>
-    {{/if}}
+        <span class="sanjiao"></span>
+    </div>
     {{if type=='phone'}}
         <div class="inputItem getcode">
             +{{formData.countyType}}<span class="sanjiao"></span>
-            <div style="margin-left:15px;">
+            <div style="margin-left:15px;flex:1;">
                 <input value="{{formData.phone}}" name="phone" type="text" placeholder="请输入手机号" />
             </div>
         </div>
@@ -328,25 +328,25 @@
         <div class="inputItemLeft">
             <input value="{{formData.imgCode}}" name="imgCode" type="text" placeholder="请输入图片中的字符" />
         </div>
-        <img id="capImg" style="width:100px;" alt="">
+        <img id="capImg" style="width:100px;" alt="" onclick="imgCodeChange()">
     </div>
 </script>
 <script type="text/html" id="formBottomScript">
   {{if type=='phone'}}
-  <div class="inputItem getcode">
-      <div class="inputItemLeft">
-          <input value="{{formData.phoneCode}}" name="phoneCode" type="text" placeholder="请输入验证码" />
+      <div class="inputItem getcode">
+          <div class="inputItemLeft">
+              <input value="{{formData.phoneCode}}" name="phoneCode" type="text" placeholder="请输入验证码" />
+          </div>
+          <div>
+              <span class="huoquyanzhengma" id="huoquyanzhengma" onclick="getPhoneCode()"></span>
+          </div>
       </div>
-      <div>
-          <span class="huoquyanzhengma" onclick="getPhoneCode()">{{phoneCodeText}}</span>
-      </div>
-  </div>
   {{/if}}
   <div class="inputItem">
-      <input value="{{formData.password}}" name="password" type="text" placeholder="请设置密码（最少6位、数字+字母）" />
+      <input value="{{formData.password}}" name="password" type="password" placeholder="请设置密码（最少6位、数字+字母）" />
   </div>
   <div class="inputItem">
-      <input value="{{formData.againPassword}}" name="againPassword"  type="text" placeholder="确认密码" />
+      <input value="{{formData.againPassword}}" name="againPassword"  type="password" placeholder="确认密码" />
   </div>
   <div class="inputItem">
       <input value="{{formData.tuijianCode}}" name="tuijianCode" type="text" placeholder="请输入推荐码" />
@@ -390,6 +390,7 @@
     {{/if}}
 </script>
 <script type="text/javascript">
+    var baseUrl='http://www.bitgoodx.com';
     var formData={
         county:'中国',
         countyType:'86',
@@ -413,7 +414,7 @@
         var tabBox = document.getElementById('tabBox');
         tabBox.innerHTML = template("tabBoxScript", {type:type});
         ////
-        $.post("http://www.papicoin.club/uc/support/country",{},function(result){
+        $.post(baseUrl+"/uc/support/country",{},function(result){
             if(result.code=='0'){
                 countyData = result.data;
                 var res = template("modelscript", {isshow:isshow,countyData:countyData});
@@ -425,7 +426,7 @@
         });
         uuid = getUUID();
         var formBoxTop = document.getElementById('formBoxTop');
-        data = "http://www.papicoin.club/uc/register/captcha.jpg?uuid=";
+        data = baseUrl+"/uc/register/captcha.jpg?uuid=";
         capImg = data;
         formBoxTop.innerHTML = template("formScript", {type:type,formData:formData,capImg:capImg,uuid:uuid,phoneCodeText:phoneCodeText});
         ////////////////////////////////
@@ -435,6 +436,7 @@
         ////////////////////////////////
         var formBoxFooter = document.getElementById('formBoxFooter');
         formBoxFooter.innerHTML = template("formBottomScript", {type:type,formData:formData,phoneCodeText:phoneCodeText});
+        $('#huoquyanzhengma').html(phoneCodeText)
     })
     function onClose() {
         var isshow = false
@@ -446,6 +448,14 @@
         type = data;
         var formBoxTop = document.getElementById('formBoxTop');
         formBoxTop.innerHTML = template("formScript", {type:type,formData:formData});
+        var formBoxFooter = document.getElementById('formBoxFooter');
+        formBoxFooter.innerHTML = template("formBottomScript", {type:type,formData:formData,phoneCodeText:phoneCodeText});
+        ////
+        var tabBox = document.getElementById('tabBox');
+        tabBox.innerHTML = template("tabBoxScript", {type:type});
+        uuid = getUUID();
+        let dataimg = baseUrl+"/uc/register/captcha.jpg?uuid=";
+        $("#capImg").attr('src',dataimg+uuid);
     }
     function onShowModel() {
         var res = template("modelscript", {isshow:true,countyData:countyData});
@@ -462,12 +472,114 @@
         formBoxTop.innerHTML = template("formScript", {type:type,formData:formData});
     }
     function handleRegistered() {
-        var t = $('form').serializeArray();
-        var d = {};
-        $.each(t, function() {
-            d[this.name] = this.value;
+        var inputs = $("input");
+        let d ={};
+        inputs.each(function(){
+            $(this) //遍历得到的每一个jquery对象
+            /**
+             * $(this)[0].value
+             "中国"
+             $(this)[0].name
+             "county"
+             * **/
+            d[$(this)[0].name]=$(this)[0].value;
         });
         d.isCheck = formData.isCheck;
+        if(d.country==''){
+            messageText('国家不能为空！');
+            return
+        }
+        if(type=="phone"){
+            if(d.phone==''){
+                messageText('手机号不能为空！');
+                return
+            }
+            if(d.phoneCode==''){
+                messageText('短信验证码不能为空！');
+                return
+            }
+        }else{
+            if(d.email==''){
+                messageText('邮箱不能为空！');
+                return
+            }
+        }
+        if(d.username==''){
+            messageText('用户名不能为空！');
+            return
+        }
+        if(d.imgCode==''){
+            messageText('图片验证码不能为空！');
+            return
+        }
+        if(d.password==''){
+            messageText('密码不能为空！');
+            return
+        }
+        if(d.againPassword!=d.password){
+            messageText('两次密码输入不一致！');
+            return
+        }else{
+
+        }
+        if(d.tuijianCode==''){
+            messageText('推荐吗不能为空！');
+            return
+        }
+        if(!d.isCheck){
+            messageText('请仔细阅读用户协议！');
+            return
+        }
+        let params={
+            country:d.county,
+            password:d.password,
+            username:d.username,
+            code:d.imgCode,
+            uuid:uuid,
+            promotion:d.tuijianCode,
+        }
+        if(type=="phone"){
+            params.code=d.phoneCode;
+            params.phone=d.phone
+            $.ajax({
+                type: 'POST',
+                url:baseUrl+'/uc/register/phone',
+                cache:false,
+                async: false,
+                traditional: true,
+                data:params,
+                success:function (result) {
+                    if(result.code=='0'){
+                        messageText('注册成功!');
+                        setTimeout(function () {
+                            window.location.href="./download.html";
+                        },1000)
+                    }else{
+                        messageText(result.message||'注册失败')
+                    }
+                },
+            });
+        }else{
+            params.email = d.email;
+            $.ajax({
+                type: 'POST',
+                url:baseUrl+'/uc/register/email',
+                cache:false,
+                async: false,
+                traditional: true,
+                data:params,
+                success:function (result) {
+                    if(result.code=='0'){
+                        messageText('注册成功!');
+                        setTimeout(function () {
+                            window.location.href="./download.html";
+                        },1000)
+                    }else{
+                        messageText(result.message||'注册失败')
+                    }
+                },
+            });
+        }
     }
     function onSelectCounty(data) {
         let county = JSON.parse(data);
@@ -483,23 +595,55 @@
         })
     }
     function getPhoneCode() {
-      var t = $('form').serializeArray();
-      var d = {};
-      $.each(t, function() {
-          d[this.name] = this.value;
-      });
+        var inputs = $("input");
+        let d ={};
+        inputs.each(function(){
+            $(this) //遍历得到的每一个jquery对象
+            /**
+             * $(this)[0].value
+             "中国"
+             $(this)[0].name
+             "county"
+             * **/
+            d[$(this)[0].name]=$(this)[0].value;
+        });
       var patrn = /^[0-9]*$/;
-      if(patrn.test(data.phone)){
+      if(patrn.test(d.phone)){
         if(phoneCodeText=='获取验证码'){
           let time = 59;
-          setInterval(function () {
+            if(d.phone==''){
+                messageText('手机号不能为空！');
+                return
+            }
+            if(d.country==''){
+                messageText('国家不能为空！');
+                return
+            }
+            if(d.imgCode==''){
+                messageText('图片验证码不能为空！');
+                return
+            }
+            let params={
+                phone: d.phone,
+                country:d.county,
+                uuid:uuid,
+                captcha:d.imgCode
+            }
+            $.post(baseUrl+"/uc/mobile/code",params,function(result){
+                if(result.code=='0'){
+                    messageText('验证码发送成功!')
+                }else{
+                    messageText(result.message||'验证码发送失败!')
+                }
+            });
+            setInterval(function () {
             if(time>0){
               time = time-1;
-              var formBoxFooter = document.getElementById('formBoxFooter');
-              formBoxFooter.innerHTML = template("formBottomScript", {type:type,formData:formData,phoneCodeText:'请'+time+'s后获取'});
+                phoneCodeText = '请'+time+'s后获取'
+                $('#huoquyanzhengma').html(phoneCodeText)
             }else{
-              var formBoxFooter = document.getElementById('formBoxFooter');
-              formBoxFooter.innerHTML = template("formBottomScript", {type:type,formData:formData,phoneCodeText:'获取验证码'});
+                phoneCodeText = '获取验证码';
+                $('#huoquyanzhengma').html(phoneCodeText)
             }
           },1000)
         }
@@ -507,12 +651,18 @@
         messageText('手机号格式异常');
       }
     }
+    function imgCodeChange() {
+        uuid = getUUID();
+        var formBoxImgCode = document.getElementById('formBoxImgCode');
+        formBoxImgCode.innerHTML = template("imgCodeScript", {type:type,formData:formData});
+        let data = baseUrl+"/uc/register/captcha.jpg?uuid=";
+        $("#capImg").attr('src',data+uuid);
+    }
 </script>
 <script type="text/html" id="messageScript">
     {{if show}}
     <div class="messageText">{{message}}</div>
     {{/if}}
 </script>
-<script src="./js/common.js"></script>
 </body>
 </html>
