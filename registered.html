@@ -263,9 +263,14 @@
                 <img src="./images/logo.png" alt="">
             </div>
         </div>
-        <div id="formBox">
+        <div id="tabBox">
 
         </div>
+        <form class="form">
+          <div id="formBoxTop"></div>
+          <div id="formBoxImgCode"></div>
+          <div id="formBoxFooter"></div>
+        </form>
     </div>
     <div id="model">
 
@@ -273,88 +278,92 @@
 </div>
 <script src="js/template-web.js"></script>
 <script src="js/jquery-1.10.2.min.js"></script>
-<script type="text/html" id="formScript">
-    <div class="login">
-        {{if type=='phone'}}
-        <div class="loginleft tabActive" onclick="onTabChange('phone')">
-            手机号注册
-        </div>
-        <div class="loginright tabNoActive" onclick="onTabChange('email')">
-            邮箱注册
-        </div>
-        {{else}}
-        <div class="loginleft tabNoActive" onclick="onTabChange('phone')">
-            手机号注册
-        </div>
-        <div class="loginright tabActive" onclick="onTabChange('email')">
-            邮箱注册
-        </div>
-        {{/if}}
+<script type="text/html" id="tabBoxScript">
+  <div class="login">
+    {{if type=='phone'}}
+    <div class="loginleft tabActive" onclick="onTabChange('phone')">
+        手机号注册
     </div>
-    <form class="form">
-        {{if type=='phone'}}
-            <div class="inputItem getcode" onclick="onShowModel()">
-                <div class="inputItemLeft">
-                    <input value="{{formData.county}}" name="county" readonly type="text" placeholder="国家" />
-                </div>
-                <span class="sanjiao"></span>
-            </div>
-        {{/if}}
-        {{if type=='phone'}}
-            <div class="inputItem getcode">
-                +{{formData.countyType}}<span class="sanjiao"></span>
-                <div style="margin-left:15px;">
-                    <input value="{{formData.phone}}" name="phone" type="text" placeholder="请输入手机号" />
-                </div>
-            </div>
-        {{/if}}
-        {{if type=='email'}}
-            <div class="inputItem">
-                <input value="{{formData.email}}"  name="email" type="text" placeholder="请输入邮箱" />
-            </div>
-        {{/if}}
-        <div class="inputItem">
-            <input value="{{formData.username}}"  name="username" type="text" placeholder="用户名" />
-        </div>
-        <div class="inputItem getcode" style="justify-content: center;">
+    <div class="loginright tabNoActive" onclick="onTabChange('email')">
+        邮箱注册
+    </div>
+    {{else}}
+    <div class="loginleft tabNoActive" onclick="onTabChange('phone')">
+        手机号注册
+    </div>
+    <div class="loginright tabActive" onclick="onTabChange('email')">
+        邮箱注册
+    </div>
+    {{/if}}
+  </div>
+</script>
+<script type="text/html" id="formScript">
+    {{if type=='phone'}}
+        <div class="inputItem getcode" onclick="onShowModel()">
             <div class="inputItemLeft">
-                <input value="{{formData.imgCode}}{{capImg+uuid}}" name="imgCode" type="text" placeholder="请输入图片中的字符" />
+                <input value="{{formData.county}}" name="county" readonly type="text" placeholder="国家" />
             </div>
-            <img id="capImg" style="width:100px;" alt="">
+            <span class="sanjiao"></span>
         </div>
-        {{if type=='phone'}}
+    {{/if}}
+    {{if type=='phone'}}
         <div class="inputItem getcode">
-            <div class="inputItemLeft">
-                <input value="{{formData.phoneCode}}" name="phoneCode" type="text" placeholder="请输入验证码" />
-            </div>
-            <div>
-                <span class="huoquyanzhengma" onclick="getPhoneCode()">{{phoneCodeText}}</span>
+            +{{formData.countyType}}<span class="sanjiao"></span>
+            <div style="margin-left:15px;">
+                <input value="{{formData.phone}}" name="phone" type="text" placeholder="请输入手机号" />
             </div>
         </div>
-        {{/if}}
+    {{/if}}
+    {{if type=='email'}}
         <div class="inputItem">
-            <input value="{{formData.password}}" name="password" type="text" placeholder="请设置密码（最少6位、数字+字母）" />
+            <input value="{{formData.email}}"  name="email" type="text" placeholder="请输入邮箱" />
         </div>
-        <div class="inputItem">
-            <input value="{{formData.againPassword}}" name="againPassword"  type="text" placeholder="确认密码" />
+    {{/if}}
+    <div class="inputItem">
+        <input value="{{formData.username}}"  name="username" type="text" placeholder="用户名" />
+    </div>
+</script>
+<script type="text/html" id="imgCodeScript">
+    <div class="inputItem getcode" style="justify-content: center;">
+        <div class="inputItemLeft">
+            <input value="{{formData.imgCode}}" name="imgCode" type="text" placeholder="请输入图片中的字符" />
         </div>
-        <div class="inputItem">
-            <input value="{{formData.tuijianCode}}" name="tuijianCode" type="text" placeholder="请输入推荐码" />
-        </div>
-        <div class="autologin">
-            <div class="left">
-                <div class="icon" onclick="onCheck()">
-                    {{if formData.isCheck}}
-                    <img src="./images/dui.png" style="width:11px;" alt="">
-                    {{/if}}
-                </div>
-                我已阅读并同意 《用户协议》
-            </div>
-        </div>
-        <div>
-            <button class="btn" onclick="handleRegistered()">注册</button>
-        </div>
-    </form>
+        <img id="capImg" style="width:100px;" alt="">
+    </div>
+</script>
+<script type="text/html" id="formBottomScript">
+  {{if type=='phone'}}
+  <div class="inputItem getcode">
+      <div class="inputItemLeft">
+          <input value="{{formData.phoneCode}}" name="phoneCode" type="text" placeholder="请输入验证码" />
+      </div>
+      <div>
+          <span class="huoquyanzhengma" onclick="getPhoneCode()">{{phoneCodeText}}</span>
+      </div>
+  </div>
+  {{/if}}
+  <div class="inputItem">
+      <input value="{{formData.password}}" name="password" type="text" placeholder="请设置密码（最少6位、数字+字母）" />
+  </div>
+  <div class="inputItem">
+      <input value="{{formData.againPassword}}" name="againPassword"  type="text" placeholder="确认密码" />
+  </div>
+  <div class="inputItem">
+      <input value="{{formData.tuijianCode}}" name="tuijianCode" type="text" placeholder="请输入推荐码" />
+  </div>
+  <div class="autologin">
+      <div class="left">
+          <div class="icon" onclick="onCheck()">
+              {{if formData.isCheck}}
+              <img src="./images/dui.png" style="width:11px;" alt="">
+              {{/if}}
+          </div>
+          我已阅读并同意 《用户协议》
+      </div>
+  </div>
+  <div>
+      <button class="btn" onclick="handleRegistered()">注册</button>
+  </div>
 </script>
 <script type="text/html" id="modelscript">
     {{if isshow}}
@@ -400,7 +409,10 @@
     var uuid = '';
     var phoneCodeText = '获取验证码';
     $(function () {
-        var isshow = false
+        var isshow = false;
+        var tabBox = document.getElementById('tabBox');
+        tabBox.innerHTML = template("tabBoxScript", {type:type});
+        ////
         $.post("http://www.papicoin.club/uc/support/country",{},function(result){
             if(result.code=='0'){
                 countyData = result.data;
@@ -412,11 +424,17 @@
             }
         });
         uuid = getUUID();
-        var formBox = document.getElementById('formBox');
+        var formBoxTop = document.getElementById('formBoxTop');
         data = "http://www.papicoin.club/uc/register/captcha.jpg?uuid=";
         capImg = data;
-        formBox.innerHTML = template("formScript", {type:type,formData:formData,capImg:capImg,uuid:uuid,phoneCodeText:phoneCodeText});
+        formBoxTop.innerHTML = template("formScript", {type:type,formData:formData,capImg:capImg,uuid:uuid,phoneCodeText:phoneCodeText});
+        ////////////////////////////////
+        var formBoxImgCode = document.getElementById('formBoxImgCode');
+        formBoxImgCode.innerHTML = template("imgCodeScript", {type:type,formData:formData});
         $("#capImg").attr('src',data+uuid);
+        ////////////////////////////////
+        var formBoxFooter = document.getElementById('formBoxFooter');
+        formBoxFooter.innerHTML = template("formBottomScript", {type:type,formData:formData,phoneCodeText:phoneCodeText});
     })
     function onClose() {
         var isshow = false
@@ -426,8 +444,8 @@
     }
     function onTabChange(data) {
         type = data;
-        var formBox = document.getElementById('formBox');
-        formBox.innerHTML = template("formScript", {type:type,formData:formData});
+        var formBoxTop = document.getElementById('formBoxTop');
+        formBoxTop.innerHTML = template("formScript", {type:type,formData:formData});
     }
     function onShowModel() {
         var res = template("modelscript", {isshow:true,countyData:countyData});
@@ -440,8 +458,8 @@
         }else{
             formData.isCheck = true;
         }
-        var formBox = document.getElementById('formBox');
-        formBox.innerHTML = template("formScript", {type:type,formData:formData});
+        var formBoxTop = document.getElementById('formBoxTop');
+        formBoxTop.innerHTML = template("formScript", {type:type,formData:formData});
     }
     function handleRegistered() {
         var t = $('form').serializeArray();
@@ -455,8 +473,8 @@
         let county = JSON.parse(data);
         formData.county = county.zhName||'';
         formData.countyType = county.areaCode||'';
-        var formBox = document.getElementById('formBox');
-        formBox.innerHTML = template("formScript", {type:type,formData:formData});
+        var formBoxTop = document.getElementById('formBoxTop');
+        formBoxTop.innerHTML = template("formScript", {type:type,formData:formData});
         onClose();
     }
     function getUUID() {
@@ -465,17 +483,29 @@
         })
     }
     function getPhoneCode() {
+      var t = $('form').serializeArray();
+      var d = {};
+      $.each(t, function() {
+          d[this.name] = this.value;
+      });
+      var patrn = /^[0-9]*$/;
+      if(patrn.test(data.phone)){
         if(phoneCodeText=='获取验证码'){
-            let time = 59;
-            setInterval(function () {
-                if(time>0){
-                   time = time-1;
-                    var formBox = document.getElementById('formBox');
-                    formBox.innerHTML = template("formScript", {type:type,formData:formData,capImg:capImg,uuid:uuid,phoneCodeText:'请'+time+'s后获取'});
-                    $("#capImg").attr('src',data+uuid);
-                }
-            },1000)
+          let time = 59;
+          setInterval(function () {
+            if(time>0){
+              time = time-1;
+              var formBoxFooter = document.getElementById('formBoxFooter');
+              formBoxFooter.innerHTML = template("formBottomScript", {type:type,formData:formData,phoneCodeText:'请'+time+'s后获取'});
+            }else{
+              var formBoxFooter = document.getElementById('formBoxFooter');
+              formBoxFooter.innerHTML = template("formBottomScript", {type:type,formData:formData,phoneCodeText:'获取验证码'});
+            }
+          },1000)
         }
+      }else{
+        messageText('手机号格式异常');
+      }
     }
 </script>
 <script type="text/html" id="messageScript">
