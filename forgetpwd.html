@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <title>忘记密码</title>
+    <script src="js/template-web.js"></script>
+    <script src="js/jquery-1.10.2.min.js"></script>
+    <link  rel="stylesheet" type="text/css" href="./css/common.css"/>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        .content{
+            position: relative;
+        }
+        .card{
+            background-color:#fff;
+            position: absolute;
+            top:0;
+            left:0;
+            width:96%;
+            margin-left:2%;
+            margin-top: 149px;
+            border-radius:4px;
+        }
+        .cardbox{
+            position: relative;
+        }
+        .logobox{
+            width:82px;
+            height:82px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            left:50%;
+            top:50%;
+            margin-top:-41px;
+            margin-left:-41px;
+        }
+        .logobox img{
+            width:100%;
+        }
+        .login{
+            text-align: center;
+            margin-top:70px;
+            font-size: 20px;
+            font-family: PingFang SC;
+            font-weight: 600;
+            line-height: 28px;
+            color: #333333;
+        }
+        input{
+            width: 100%;
+            border: none;
+            height: 22px;
+            outline: none;
+            padding: 12px 0;
+            font-size: 16px;
+            color: #333;
+        }
+        .form{
+            margin:0 11px;
+            padding-bottom:30px;
+        }
+        .inputItem{
+            border-bottom: 1px solid rgba(244, 244, 244, 0.611764705882353);
+            /*border-bottom:1px solid #ccc;*/
+        }
+        .btn{
+            width:100%;
+            height: 44px;
+            background: linear-gradient(90deg, #1655EE 0%, #50BDE6 100%);
+            box-shadow: 0px 6px 6px #D9F0FB;
+            opacity: 1;
+            border:none;
+            border-radius: 52px;
+            font-size: 20px;
+            font-family: PingFang SC;
+            font-weight: 400;
+            color: #FFFFFF;
+            margin-top:30px;
+        }
+        .codelogin{
+            padding-top:20px;
+            text-align: center;
+        }
+        .codelogin a{
+            text-decoration:none;
+        }
+        .codelogin span:nth-child(1) a{
+            font-size: 16px;
+            font-family: PingFang SC;
+            font-weight: 500;
+            line-height: 22px;
+            color: #333333;
+        }
+        .codelogin span:nth-child(2) a{
+            font-size: 16px;
+            font-family: PingFang SC;
+            font-weight: 500;
+            line-height: 22px;
+            color: #1655EE;
+            margin-left:10px;
+        }
+        .right{
+            flex:1;
+            text-align: right;
+            font-size: 12px;
+            font-family: PingFang SC;
+            font-weight: 400;
+            line-height: 17px;
+            color: #999999;
+        }
+        .getcode{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+        .inputItemLeft{
+            flex:1;
+        }
+        .huoquyanzhengma{
+            font-size: 16px;
+            font-family: PingFang SC;
+            font-weight: 500;
+            color: #1655EE;
+        }
+        input::-webkit-input-placeholder {
+            color: #ccc;
+        }
+        input::-moz-input-placeholder {
+            color: #ccc;
+        }
+        input::-ms-input-placeholder {
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div id="message" class="message"></div>
+    <div class="content">
+        <img src="./images/loginbg.png" style="width:100%" alt="">
+        <div class="card">
+            <div class="cardbox">
+                <div class="logobox">
+                    <img src="./images/logo.png" alt="">
+                </div>
+            </div>
+            <div class="login">忘记密码</div>
+            <div id="formBox"></div>
+        </div>
+    </div>
+    <script type="text/html" id="messageScript">
+        {{if show}}
+        <div class="messageText">{{message}}</div>
+        {{/if}}
+    </script>
+    <script src="./js/common.js"></script>
+    <script type="text/html" id="formScript">
+        <form class="form">
+            <div class="inputItem">
+                <input name="phone" value="{{formData.phone}}" type="text" placeholder="请输入手机号码" />
+            </div>
+            <div class="inputItem getcode">
+                <div class="inputItemLeft">
+                    <input value="{{formData.imgCode}}" name="imgCode" type="text" placeholder="请输入图片中的字符" />
+                </div>
+                <div>
+                    <span class="huoquyanzhengma">获取验证码</span>
+                </div>
+            </div>
+            <div class="inputItem getcode">
+                <div class="inputItemLeft">
+                    <input value="{{formData.phoneCode}}" name="phoneCode"  type="text" placeholder="请输入验证码" />
+                </div>
+                <div>
+                    <span class="huoquyanzhengma">获取验证码</span>
+                </div>
+            </div>
+            <div class="inputItem">
+                <input value="{{formData.password}}" name="password"  type="text" placeholder="新密码" />
+            </div>
+            <div class="inputItem">
+                <input value="{{formData.againPassword}}" name="againPassword" type="text" placeholder="确认新密码" />
+            </div>
+            <div>
+                <button class="btn" onclick="handleEdit()">确认新密码</button>
+            </div>
+            <div class="codelogin">
+                <span><a href="./index.html">账号密码登录</a></span><span><a href="./registered.html">注册</a></span>
+            </div>
+        </form>
+    </script>
+    <script type="text/javascript">
+        var formData={
+            phone:'17798235471',
+            imgCode:'aaaa',
+            phoneCode:'808080',
+            password:'123456',
+            againPassword:'123456',
+        }
+        $(function () {
+            var formBox = document.getElementById('formBox');
+            formBox.innerHTML = template("formScript", {formData:formData});
+        })
+        function handleEdit() {
+            var t = $('form').serializeArray();
+            var d = {};
+            $.each(t, function() {
+                d[this.name] = this.value;
+            });
+            debugger
+        }
+    </script>
+</body>
+</html>

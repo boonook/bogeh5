@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <title>登录</title>
+    <script src="js/template-web.js"></script>
+    <script src="js/jquery-1.10.2.min.js"></script>
+    <link  rel="stylesheet" type="text/css" href="./css/common.css"/>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        .content{
+            position: relative;
+            height:100vh;
+            overflow-y: hidden;
+        }
+        .card{
+            background-color:#fff;
+            position: absolute;
+            top:0;
+            left:0;
+            width:96%;
+            margin-left:2%;
+            margin-top: 149px;
+            border-radius:4px;
+        }
+        .cardbox{
+            position: relative;
+        }
+        .logobox{
+            width:82px;
+            height:82px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            left:50%;
+            top:50%;
+            margin-top:-41px;
+            margin-left:-41px;
+        }
+        .logobox img{
+            width:100%;
+        }
+        .login{
+            width: 100%;
+            border: none;
+            height: 22px;
+            outline: none;
+            padding: 12px 0;
+            text-align: center;
+            margin-top:71px;
+            font-size: 20px;
+            font-family: PingFang SC;
+            font-weight: 600;
+            line-height: 28px;
+            color: #333333;
+        }
+        input{
+            width:100%;
+            border:none;
+            height:40px;
+            outline: none;
+            padding:12px 0;
+            font-size:16px;
+            color:#333;
+        }
+        .form{
+            margin:0 11px;
+            padding-bottom:30px;
+        }
+        .inputItem{
+            border-bottom: 1px solid rgba(244, 244, 244, 0.611764705882353);
+            /*border-bottom:1px solid #ccc;*/
+        }
+        .btn{
+            width:100%;
+            height: 44px;
+            background: linear-gradient(90deg, #1655EE 0%, #50BDE6 100%);
+            box-shadow: 0px 6px 6px #D9F0FB;
+            opacity: 1;
+            border:none;
+            border-radius: 52px;
+            font-size: 20px;
+            font-family: PingFang SC;
+            font-weight: 400;
+            color: #FFFFFF;
+        }
+        .autologin{
+            padding:11px 0;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+        .codelogin{
+            padding-top:20px;
+            text-align: center;
+        }
+        .codelogin a{
+            text-decoration:none;
+        }
+        .codelogin span:nth-child(1){
+            font-size: 16px;
+            font-family: PingFang SC;
+            font-weight: 500;
+            line-height: 22px;
+            color: #333333;
+        }
+        .codelogin span:nth-child(1) a{
+            font-size: 16px;
+            font-family: PingFang SC;
+            font-weight: 500;
+            line-height: 22px;
+            color: #333333;
+        }
+        .codelogin span:nth-child(2){
+            font-size: 16px;
+            font-family: PingFang SC;
+            font-weight: 500;
+            line-height: 22px;
+            color: #1655EE;
+            margin-left:10px;
+        }
+        .right{
+            flex:1;
+            text-align: right;
+            font-size: 12px;
+            font-family: PingFang SC;
+            font-weight: 400;
+            line-height: 17px;
+            color: #999999;
+        }
+        .left{
+            font-size: 12px;
+            font-family: PingFang SC;
+            font-weight: 400;
+            line-height: 17px;
+            color: #333333;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+        .left img{
+            margin-right:5px;
+        }
+        input::-webkit-input-placeholder {
+            color: #ccc;
+        }
+        input::-ms-input-placeholder {
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div id="message" class="message"></div>
+    <div class="content">
+        <img src="./images/loginbg.png" style="width:100%" alt="">
+        <div class="card">
+            <div class="cardbox">
+                <div class="logobox">
+                    <img src="./images/logo.png" alt="">
+                </div>
+            </div>
+            <div class="login">登录</div>
+            <div class="form" id="formBox">/div>
+        </div>
+    </div>
+    </div>
+    <script type="text/html" id="formScript">
+        <div class="inputItem">
+            <input type="text" id="name" value="{{formdata.name}}" placeholder="请输入账号" />
+        </div>
+        <div class="inputItem">
+            <input type="password" id="password" value="{{formdata.password}}" placeholder="请输入密码" />
+        </div>
+        <div class="autologin">
+            <div class="left">
+                {{if isCheck}}
+                <img onclick="onCheck(false)" src="./images/checked.png" style="width:20px" alt="">
+                {{else}}
+                <img  onclick="onCheck(true)" src="./images/check.png" style="width:20px" alt="">
+                {{/if}}
+                自动登录
+            </div>
+            <div class="right">
+                忘记密码
+            </div>
+        </div>
+        <div>
+            <button class="btn" onclick="handleLogin()">登录</button>
+        </div>
+        <div class="codelogin">
+            <span><a href="./forgetpwd.html">验证码登录</a></span><span><a href="./registered.html">注册</a></span>
+        </div>
+    </script>
+    <script type="text/html" id="messageScript">
+        {{if show}}
+            <div class="messageText">{{message}}</div>
+        {{/if}}
+    </script>
+    <script src="./js/common.js"></script>
+    <script type="text/javascript">
+        var formdata={
+            name:'17798235471',
+            password:'123456'
+        }
+        $(function () {
+            var res = template("formScript", {isCheck:false,formdata:formdata});
+            var formBox = document.getElementById('formBox')
+            formBox.innerHTML = res;
+        })
+        function onCheck(data) {
+            var res = template("formScript", {isCheck:data});
+            var formBox = document.getElementById('formBox')
+            formBox.innerHTML = res;
+        }
+        function handleLogin() {
+            let name = $('#name')[0].value;
+            let password = $('#password')[0].value;
+            let params={
+                name:name,
+                password:password
+            }
+            messageText(params.toString())
+        }
+    </script>
+</body>
+</html>

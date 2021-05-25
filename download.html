@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <title>下载app</title>
+    <script src="js/template-web.js"></script>
+    <script src="js/jquery-1.10.2.min.js"></script>
+    <link  rel="stylesheet" type="text/css" href="./css/common.css"/>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        .content{
+            position: relative;
+            height:100vh;
+            background-image: url("./images/downloadbg.png");
+            background-repeat: no-repeat;
+            background-size:100% 100%;
+        }
+        .card{
+            position: absolute;
+            width:90%;
+            top:0;
+            left:0;
+            z-index: 2;
+            height:100%;
+            margin-left:5%;
+            display: flex;
+            flex-direction: column;
+        }
+        .btn{
+            height:48px;
+            background: #2B58F3;
+            border-radius: 52px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            font-size:18px;
+            font-family: PingFang SC;
+            font-weight: 500;
+            color: #FFFFFF;
+        }
+        .btn img{
+            margin-right:5px;
+        }
+        .btn:nth-child(2){
+            margin-top: 20px;
+            margin-bottom:67px;
+        }
+        .cardTop{
+            flex:1;
+            text-align: center;
+            padding-top:125px;
+        }
+    </style>
+</head>
+<body>
+    <div id="message" class="message"></div>
+    <div class="content">
+        <div class="card">
+            <div class="cardTop">
+                <div>
+                    <img src="./images/belogo.png" style="width:89px;" alt="">
+                </div>
+                <div style="margin-top:36px">
+                    <img src="./images/bitgood.png" style="width:144px;" alt="">
+                </div>
+            </div>
+            <div>
+                <div class="btn">
+                    <img src="./images/pingguo.png" style="width:20px" alt="">
+                    iPhone 下载
+                </div>
+                <div class="btn">
+                    <img src="./images/android.png" style="width:20px" alt="">
+                    iPhone 下载
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/html" id="messageScript">
+        <div class="messageText">{{message}}</div>
+    </script>
+    <script src="./js/common.js"></script>
+</body>
+</html>
